@@ -1,1 +1,3 @@
 rootProject.name = 'reusability'
+include 'reusability-web'
+include 'reusability-common'

@@ -1,30 +1,71 @@
-plugins {
-	id 'org.springframework.boot' version '2.7.1'
-	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-	id 'java'
-}
+buildscript {
+	ext {
+		springBootVersion = '2.7.1'
+	}
 
-group = 'com.codeidea'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+	repositories {
+		mavenCentral()
+	}
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE"
 	}
 }
 
-repositories {
-	mavenCentral()
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'eclipse'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+
+	group = 'com.codeidea'
+	version = '1.0.0-SNAPSHOT'
+	sourceCompatibility = '11'
+
+	task initSourceFolders {
+		sourceSets*.java.srcDirs*.each {
+			if(! it.exists()) {
+				it.mkdirs()
+			}
+		}
+
+		sourceSets*.resources.srcDirs*.each {
+			if(! it.exists()) {
+				it.mkdirs()
+			}
+		}
+	}
+
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		compileOnly('org.projectlombok:lombok')
+
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+		implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.5'
+
+		implementation 'org.modelmapper:modelmapper:2.4.4'
+		implementation 'org.slf4j:jcl-over-slf4j'
+		implementation 'ch.qos.logback:logback-classic'
+		implementation 'org.json:org.json:chargebee-1.0'
+		implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+		implementation 'org.apache.commons:commons-lang3:3.12.0'
+		implementation 'commons-io:commons-io:2.11.0'
+	}
 }
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+project(':reusability-web') {
+	dependencies {
+		implementation project(':reusability-common')
+		implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+		implementation 'javax.servlet:jstl'
+	}
 }
-
-tasks.named('test') {
-	useJUnitPlatform()
+project(':reusability-common') {
+	dependencies {
+	}
 }
