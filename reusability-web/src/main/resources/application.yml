@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: local
+    include: conn, oauth2, app, cors
+
+server.port: 8080
+
+# jwt secret key 설정
+jwt.secret: '8sknjlO3NPTBqo319DHLNqsQAfRJEdKsETOds'

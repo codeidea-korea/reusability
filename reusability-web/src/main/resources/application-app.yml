@@ -1,0 +1,10 @@
+# 토큰 관련 secret Key 및 RedirectUri 설정
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpiry: 1800000
+    # 토큰 유효기간은 7일(24 x 60 x 60 x 1000 * 7)
+    refreshTokenExpiry: 604800000
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:8080/oauth/redirect
