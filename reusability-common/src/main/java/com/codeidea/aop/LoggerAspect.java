@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class LoggerAspect {
 
-	@Around("within(com.anything.front..*) and "
+	@Around("within(com.codeidea.front..*) and "
 			+ "@annotation(org.springframework.web.bind.annotation.GetMapping) or "
 			+ "@annotation(org.springframework.web.bind.annotation.PostMapping)")
 	public Object logAction(ProceedingJoinPoint joinPoint) throws Throwable {
